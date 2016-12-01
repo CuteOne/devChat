@@ -60,7 +60,7 @@ function(self, event, ...)
 				return false
 			end
 			function canCast(Spell)
-				if IsUsableSpell(Spell) and getSpellCD(Spell) and isKnown(Spell) and (IsHelpfulSpell(Spell) or IsSpellInRange(Spell,"target") == nil or IsSpellInRange(Spell,"target") == 1) then
+				if IsUsableSpell(Spell) and getSpellCD(Spell) and isKnown(Spell) and (IsHelpfulSpell(Spell) or IsItemInRange(37727,"target") or IsSpellInRange(Spell,"target") == 1) then
 					return true
 				end
 				return false
@@ -68,6 +68,7 @@ function(self, event, ...)
 		-- Rotation
 	  		if ObjectExists("target") and not UnitIsFriend("target","player") and not UnitIsDeadOrGhost("target") then
 	  			local cast 			= CastSpellByName
+	  			local inMelee 		= IsItemInRange(37727,"target")
 	  			local php 			= (UnitHealth("player")/UnitHealthMax("player"))*100
 	  			local pain 			= UnitPower("player",18)
 
@@ -92,11 +93,11 @@ function(self, event, ...)
 				end
 			-- Infernal Strike
 				-- actions+=/infernal_strike,if=!sigil_placed&!in_flight&remains-travel_time-delay<0.3*duration&(!artifact.fiery_demise.enabled|(max_charges-charges_fractional)*recharge_time<cooldown.fiery_brand.remains+5)&(cooldown.sigil_of_flame.remains>7|charges=2)
-				if canCast("Infernal Strike") then
+				if canCast("Infernal Strike") and canCast("Shear") then
 					if select(1,GetSpellCharges("Infernal Strike")) == 2 then
 						cast("Infernal Strike","player")
 						if IsAoEPending() then
-							local X,Y,Z = GetObjectPosition("player")
+							local X,Y,Z = ObjectPosition("player")
 							ClickPosition(X,Y,Z)
 						end
 					end
@@ -117,9 +118,9 @@ function(self, event, ...)
 				end
 			-- Immolation
 				-- actions+=/immolation_aura,if=pain<=80
-				if canCast("Immolation") then
+				if canCast("Immolation Aura") then
 					if pain <= 80 then
-						cast("Immolation","player")
+						cast("Immolation Aura","target")
 					end
 				end
 			-- Fel Blade
@@ -171,9 +172,9 @@ function(self, event, ...)
 				-- actions+=/sigil_of_flame,if=remains-delay<=0.3*duration
 				if canCast("Sigil of Flame") then
 					if getAuraRemain("target","Sigil of Flame","player") - 1 <= 0.3 * getAuraDuration("target","Sigil of Flame","player") then
-						cast("Sigil of Flame","player")
+						cast("Sigil of Flame","target")
 						if IsAoEPending() then
-							local X,Y,Z = GetObjectPosition("target")
+							local X,Y,Z = ObjectPosition("target")
 							ClickPosition(X,Y,Z)
 						end
 					end
