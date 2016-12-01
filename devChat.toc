@@ -1,0 +1,6 @@
+## Interface: 70100
+## Title: devChat
+## Author: CuteOne
+## Notes: BadRotations2
+## Version: 2.0
+Main.lua
