@@ -3,16 +3,12 @@ devChat_EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 devChat_EventFrame:SetScript("OnEvent",
 function(self, event, ...)
 	-- Globals Section
-	devChat_UpdateInterval = 1--math.random(0.22,0.32)
-
-	-- Engine
-	local devChat = CreateFrame("Frame")
-	devChat:SetScript("OnUpdate", function(self, elapsed)
-		if self.TimeSinceLastUpdate == nil then self.TimeSinceLastUpdate = 0 end
-		self.TimeSinceLastUpdate = self.TimeSinceLastUpdate + elapsed; 	
-
-	  	while (self.TimeSinceLastUpdate > devChat_UpdateInterval) do
-	  	-- Functions
+	local updateRate = math.random(0.22,0.32)
+	local timer = 0
+	local function onUpdate(self,elapsed)
+	    timer = timer + elapsed
+	    if timer >= updateRate then
+	        -- Functions
 	  		function UnitAuras(unit,spellName)
 				if UnitAura(unit,spellName) ~= nil then 
 					return UnitAura(unit,spellName)
@@ -199,9 +195,12 @@ function(self, event, ...)
 					cast("Shear","target")
 				end
 			end
-			self.TimeSinceLastUpdate = self.TimeSinceLastUpdate - devChat_UpdateInterval;
-	  	end
-	end)	
+	        timer = 0
+	    end
+	end
+ 
+	local devChat = CreateFrame("frame")
+	devChat:SetScript("OnUpdate", onUpdate)
 end)
--- devChat:OnUpdate()
+
 	
