@@ -8,7 +8,7 @@ function DemonHunterVengeance()
 
 	-- Fiery Brand
 		-- actions+=/fiery_brand,if=buff.demon_spikes.down&buff.metamorphosis.down
-		if not UnitAura("player","Fiery Brand") and not UnitAura("player","Metamorphosis") then
+		if not UnitAuras("player","Fiery Brand") and not UnitAuras("player","Metamorphosis") then
 			cast("Fiery Brand","target")
 		end
 	-- Demon Spikes
@@ -71,7 +71,7 @@ function DemonHunterVengeance()
 		cast("Fel Eruption","player")
 	-- Sigil of Flame
 		-- actions+=/sigil_of_flame,if=remains-delay<=0.3*duration
-		if getAuraRemain("target","Sigil of Flame","player") - 1 <= 0.3 * getAuraDuration("target","Sigil of Flame","player") then
+		if getAuraRefresh("target","Sigil of Flame","player") then
 			cast("Sigil of Flame","target","target")
 		end
 	-- Fracture

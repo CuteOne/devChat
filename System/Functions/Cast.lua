@@ -11,7 +11,9 @@ function cast(Spell,Unit,AoEUnit)
 			local X,Y,Z = ObjectPosition(AoEUnit)
 			ClickPosition(X,Y,Z)
 		end
-		return true
-	end
-	return false	
+		-- Need a way to check if spell cast succeeded or failed for other reasons, 
+		-- profile currently goes to cast but does not seem to fully initialize before moving on, 
+		-- however may want to allow this behavior on channeled spells
+	end	
+	return
 end
