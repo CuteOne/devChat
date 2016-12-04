@@ -12,5 +12,7 @@ System\Functions\Spell.lua
 
 ## Rotations 
 Rotations\DemonHunter\Vengeance\VengeanceCuteOne.lua
+Rotations\DemonHunter\Vengeance\VengeanceSampleSecond.lua
+Rotations\ProfileSelector.lua
 
 Main.lua
