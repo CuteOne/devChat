@@ -14,6 +14,6 @@ function cast(Spell,Unit,AoEUnit)
 		-- Need a way to check if spell cast succeeded or failed for other reasons, 
 		-- profile currently goes to cast but does not seem to fully initialize before moving on, 
 		-- however may want to allow this behavior on channeled spells
+		return true
 	end	
-	return
 end

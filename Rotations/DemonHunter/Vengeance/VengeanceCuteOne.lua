@@ -1,23 +1,30 @@
+-- Rotation
 function DemonHunterVengeance()
-	-- Rotation
-	if ObjectExists("target") and not UnitIsFriend("target","player") and not UnitIsDeadOrGhost("target") then
-		-- local cast 			= CastSpellByName
-		local inMelee 		= IsItemInRange(37727,"target")
-		local php 			= (UnitHealth("player")/UnitHealthMax("player"))*100
-		local pain 			= UnitPower("player",18)
+	-- Before we attempt to attack make sure we have a unit and it's valid.
+	-- If not in combat do nothing unless player selects unit
+	-- If in combat make sure we have valid unit: (enemy, on threat table if in party otherwise selected)
+	if Unit.valid then
+
 
 	-- Fiery Brand
 		-- actions+=/fiery_brand,if=buff.demon_spikes.down&buff.metamorphosis.down
-		if not UnitAuras("player","Fiery Brand") and not UnitAuras("player","Metamorphosis") then
-			cast("Fiery Brand","target")
+		if not player.buff.exists(fieryBrand) and not player.buff.exists(metamorphosis) then
+			cast(fieryBrand
 		end
+		-- if not UnitAuras("player","Fiery Brand") and not UnitAuras("player","Metamorphosis") then
+		-- 	cast("Fiery Brand","target")
+		-- end
 	-- Demon Spikes
 		-- actions+=/demon_spikes,if=charges=2|buff.demon_spikes.down&!dot.fiery_brand.ticking&buff.metamorphosis.down
-		if select(1,GetSpellCharges("Demon Spikes")) == 2 then
-			cast("Demon Spikes","player")
+		if charges.demonSpikes == 2 or not buff.demonSpikes and not debuff.fieryBrand(bestUnit) and buff.metamorphosis then
+			cast.demonSpikes()
 		end
+		-- if select(1,GetSpellCharges("Demon Spikes")) == 2 then
+		-- 	cast("Demon Spikes","player")
+		-- end
 	-- Infernal Strike
 		-- actions+=/infernal_strike,if=!sigil_placed&!in_flight&remains-travel_time-delay<0.3*duration&(!artifact.fiery_demise.enabled|(max_charges-charges_fractional)*recharge_time<cooldown.fiery_brand.remains+5)&(cooldown.sigil_of_flame.remains>7|charges=2)
+		if not placed.sigilOfFlame and not inFlight.infernalStrike and  
 		if canCast("Shear") then
 			if select(1,GetSpellCharges("Infernal Strike")) == 2 then
 				cast("Infernal Strike","player","player")
